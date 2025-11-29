@@ -1,0 +1,41 @@
+{
+	"info": {
+		"_postman_id": "e432e605-ef56-47e6-bbfa-27ccfa2f745d",
+		"name": "MyVaccineApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16101814",
+		"_collection_link": "https://blue-desert-795328.postman.co/workspace/Enlace-Operativo-Workspace~734a6ca8-08bc-49ad-8eb1-a14a7f329905/collection/16101814-e432e605-ef56-47e6-bbfa-27ccfa2f745d?action=share&source=collection_link&creator=16101814"
+	},
+	"item": [
+		{
+			"name": "[AuthController] - Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"usuarioPrueba\",\r\n  \"password\": \"Password123!\",\r\n  \"firstName\": \"Carlos\",\r\n  \"lastName\": \"Diaz\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/api/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
