@@ -14,7 +14,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"username\": \"usuarioPrueba\",\r\n  \"password\": \"Password123!\",\r\n  \"firstName\": \"Carlos\",\r\n  \"lastName\": \"Diaz\"\r\n}",
+					"raw": "{\r\n  \"username\": \"zulmita.parra\",\r\n  \"password\": \"Zulmita123!\",\r\n  \"firstName\": \"Zulmita\",\r\n  \"lastName\": \"Parra\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -32,6 +32,334 @@
 						"api",
 						"auth",
 						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AuthController] - Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"access_token\", JSON.parse(pm.response.text()).token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\": \"zulmita.parra\",\r\n  \"password\": \"Zulmita123!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/api/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AuthController] - Refresh token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.environment.set(\"access_token\", JSON.parse(pm.response.text()).token);"
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/api/auth/refresh-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"auth",
+						"refresh-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[AuthController] - Get user info",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/api/auth/user-info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"auth",
+						"user-info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[VaccineController] - Create vaccine",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Hepatitis A\",\r\n  \"requiresBooster\": true,\r\n  \"categoryIds\": [2]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/api/vaccine",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"vaccine"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[CategoryController] - Create  category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"Vivas atenuadas\"\r\n  //\"name\": \"Inactivadas\"\r\n  //\"name\": \"De subunidades\"\r\n  //\"name\": \"Toxoides\"\r\n  //\"name\": \"De ácidos nucleicos\"\r\n  //\"name\": \"De vectores virales\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/api/category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[CategoryController] - Get all categories",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/api/category",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"category"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[CategoryController] - Get category by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/api/category/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"category",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[CategoryController] - Update category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  //\"name\": \"Vivas atenuadas\"\r\n  \"name\": \"Inactivadas\"\r\n  //\"name\": \"De subunidades\"\r\n  //\"name\": \"Toxoides\"\r\n  //\"name\": \"De ácidos nucleicos\"\r\n  //\"name\": \"De vectores virales\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5133/api/category/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"category",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "[CategoryController] - Delete category",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{access_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5133/api/category/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5133",
+					"path": [
+						"api",
+						"category",
+						"1"
 					]
 				}
 			},

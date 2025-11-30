@@ -46,17 +46,6 @@ public class UserRepository : BaseRepository<User>,IUserRepository
             await _context.SaveChangesAsync();
             scope.Complete();
         }
-
-
-
-        //var user = new ApplicationUser
-        //{
-        //    UserName = request.Email.ToLower(),
-        //    Email = request.Email,
-
-        //};
-
-        //var result = await _userManager.CreateAsync(user, model.Password);
         return response;
     }
 }

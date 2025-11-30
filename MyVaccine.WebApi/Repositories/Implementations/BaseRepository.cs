@@ -7,12 +7,12 @@ namespace MyVaccine.WebApi.Repositories.Implementations;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
 {
-    private readonly MyVaccineAppDbContext _context;
+    protected readonly MyVaccineAppDbContext _context;
     public BaseRepository(MyVaccineAppDbContext context)
     {
         _context = context;
     }
-    public async Task Add(T entity)
+    public async Task<T> AddAsync(T entity)
     {
         var UpdatedAt = entity.GetType().GetProperty("UpdatedAt");
         if (UpdatedAt != null) entity.GetType().GetProperty("UpdatedAt").SetValue(entity, DateTime.UtcNow);
@@ -23,9 +23,10 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
         await _context.AddAsync(entity);
         _context.Entry(entity).State = EntityState.Added;
         await _context.SaveChangesAsync();
+        return entity;
     }
 
-    public async Task AddRange(List<T> entity)
+    public async Task AddRangeAsync(List<T> entity)
     {
         entity = entity.Select(x =>
         {
@@ -38,13 +39,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
         await _context.SaveChangesAsync();
     }
 
-    public async Task Delete(T entity)
+    public async Task DeleteAsync(T entity)
     {
         _context.Remove(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteRange(List<T> entity)
+    public async Task DeleteRangeAsync(List<T> entity)
     {
         _context.RemoveRange(entity);
         await _context.SaveChangesAsync();
@@ -66,22 +67,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
         return entitySet.AsQueryable();
     }
 
-    public async Task Patch(T entity)
+    public async Task PatchAsync(T entity)
     {
         var entry = _context.Entry(entity);
 
         if (entry.State == EntityState.Detached)
         {
-            // Assuming that the entity has an Id property
             var key = entity.GetType().GetProperty("Id").GetValue(entity, null);
             var originalEntity = await _context.Set<T>().FindAsync(key);
 
-            // Attach the original entity and set values from the incoming entity
             entry = _context.Entry(originalEntity);
             entry.CurrentValues.SetValues(entity);
         }
 
-        // Update the UpdatedAt property if it exists
         var updatedAtProperty = entity.GetType().GetProperty("UpdatedAt");
         if (updatedAtProperty != null)
         {
@@ -89,22 +87,19 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
             entry.Property("UpdatedAt").IsModified = true;
         }
 
-        // Get a list of properties that have been modified
         var changedProperties = entry.Properties
             .Where(p => p.IsModified)
             .Select(p => p.Metadata.Name);
 
-        // Ensure that only the changed properties will be updated
         foreach (var name in changedProperties)
         {
             entry.Property(name).IsModified = true;
         }
 
-        // Save changes
         await _context.SaveChangesAsync();
     }
 
-    public async Task PatchRange(List<T> entities)
+    public async Task PatchRangeAsync(List<T> entities)
     {
         foreach (var entity in entities)
         {
@@ -112,16 +107,13 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
 
             if (entry.State == EntityState.Detached)
             {
-                // Assuming that the entity has an Id property
                 var key = entity.GetType().GetProperty("Id").GetValue(entity, null);
                 var originalEntity = await _context.Set<T>().FindAsync(key);
 
-                // Attach the original entity and set values from the incoming entity
                 entry = _context.Entry(originalEntity);
                 entry.CurrentValues.SetValues(entity);
             }
 
-            // Update the UpdatedAt property if it exists
             var updatedAtProperty = entity.GetType().GetProperty("UpdatedAt");
             if (updatedAtProperty != null)
             {
@@ -129,33 +121,29 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
                 entry.Property("UpdatedAt").IsModified = true;
             }
 
-            // Get a list of properties that have been modified
             var changedProperties = entry.Properties
                 .Where(p => p.IsModified)
                 .Select(p => p.Metadata.Name);
 
-            // Ensure that only the changed properties will be updated
             foreach (var name in changedProperties)
             {
                 entry.Property(name).IsModified = true;
             }
         }
 
-        // Save changes
         await _context.SaveChangesAsync();
     }
 
-    public async Task Update(T entity)
+    public async Task UpdateAsync(T entity)
     {
         var UpdatedAt = entity.GetType().GetProperty("UpdatedAt");
         if (UpdatedAt != null) entity.GetType().GetProperty("UpdatedAt").SetValue(entity, DateTime.UtcNow);
-        //DatabaseContext.Entry(entity).State = EntityState.Modified;
 
         _context.Update(entity);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateRange(List<T> entity)
+    public async Task UpdateRangeAsync(List<T> entity)
     {
         entity = entity.Select(x =>
         {
@@ -165,5 +153,23 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class, new()
 
         _context.UpdateRange(entity);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<T>> GetAllAsync()
+    {
+        return await _context.Set<T>().ToListAsync();
+    }
+
+    public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>()
+            .Where(predicate)
+            .ToListAsync();
+    }
+
+    public async Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate)
+    {
+        return await _context.Set<T>()
+            .FirstOrDefaultAsync(predicate);
     }
 }

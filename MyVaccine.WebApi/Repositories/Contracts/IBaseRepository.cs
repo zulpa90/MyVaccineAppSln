@@ -4,15 +4,18 @@ namespace MyVaccine.WebApi.Repositories.Contracts;
 
 public interface IBaseRepository<T>
 {
-    Task Add(T entity);
-    Task AddRange(List<T> entity);
-    Task Update(T entity);
-    Task UpdateRange(List<T> entity);
-    Task Delete(T entity);
-    Task DeleteRange(List<T> entity);
+    Task<T> AddAsync(T entity);
+    Task AddRangeAsync(List<T> entity);
+    Task UpdateAsync(T entity);
+    Task UpdateRangeAsync(List<T> entity);
+    Task DeleteAsync(T entity);
+    Task DeleteRangeAsync(List<T> entity);
     IQueryable<T> GetAll();
+    Task<List<T>> GetAllAsync();
+    Task<List<T>> GetAllAsync(Expression<Func<T, bool>> predicate);
     IQueryable<T> FindBy(Expression<Func<T, bool>> predicate);
-    Task Patch(T entity);
-    Task PatchRange(List<T> entities);
+    Task<T> GetSingleAsync(Expression<Func<T, bool>> predicate);
+    Task PatchAsync(T entity);
+    Task PatchRangeAsync(List<T> entities);
     IQueryable<T> FindByAsNoTracking(Expression<Func<T, bool>> predicate);
 }

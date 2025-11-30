@@ -1,6 +1,5 @@
 ﻿namespace MyVaccine.WebApi.Services;
 
-// IGuidGenerator.cs
 public interface IGuidGenerator
 {
     Guid GetGuid();
@@ -23,7 +22,6 @@ public interface IGuidGeneratorDeep
     MyGuidDI GetGuidDeep();
 }
 
-// GuidServiceScope.cs
 public class GuidServiceScope : IGuidGeneratorScope
 {
     private Guid _guid;
@@ -39,7 +37,6 @@ public class GuidServiceScope : IGuidGeneratorScope
     }
 }
 
-// GuidServiceTransient.cs
 public class GuidServiceTransient : IGuidGeneratorTrasient
 {
     private Guid _guid;
@@ -54,8 +51,6 @@ public class GuidServiceTransient : IGuidGeneratorTrasient
         return _guid;
     }
 }
-
-// GuidServiceSingleton.cs
 public class GuidServiceSingleton : IGuidGeneratorSingleton
 {
     private Guid _guid;

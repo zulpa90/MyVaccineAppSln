@@ -6,7 +6,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "MY_VACCINE_CONNECTION_STRING": "Server=localhost,1433;Database=MyVaccineAppDb;UserId=sa;Password=Abc.123456;TrustServerCertificate=True;",
+        "MY_VACCINE_CONNECTION_STRING": "Server=localhost,1433;Database=MyVaccineAppDb;User Id=sa;Password=Abc.123456;TrustServerCertificate=True;",
         "JWT_KEY": "A2*7gF9@D#1hJ$5mNpRtVwYzZ&k8zbx/s1@1nM*H"
       },
       "dotnetRunMessages": true,

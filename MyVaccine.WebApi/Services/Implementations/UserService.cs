@@ -63,8 +63,6 @@ public class UserService : IUserService
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(
-                    //issuer: _configuration["JwtIssuer"],
-                    //audience: _configuration["JwtAudience"],
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(15),
                     signingCredentials: creds
@@ -107,8 +105,6 @@ public class UserService : IUserService
                 var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
                 var token = new JwtSecurityToken(
-                    //issuer: _configuration["JwtIssuer"],
-                    //audience: _configuration["JwtAudience"],
                     claims: claims,
                     expires: DateTime.Now.AddMinutes(15),
                     signingCredentials: creds
@@ -138,7 +134,6 @@ public class UserService : IUserService
     {
         var user = await _userManager.FindByNameAsync(email);
 
-        var response = await _userRepository.FindByAsNoTracking(x => x.AspNetUserId == user.Id).FirstOrDefaultAsync();
-        return response;
+        return await _userRepository.FindByAsNoTracking(x => x.AspNetUserId == user.Id).FirstOrDefaultAsync();
     }
 }

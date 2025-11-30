@@ -19,13 +19,12 @@ public class DependentService : IDependentService
     }
     public async Task<DependentResponseDto> Add(DependentRequestDto request)
     {
-        // var dependents = await _dependentRepository.FindBy(x => x.DependentId == id).FirstOrDefaultAsync();
         var dependents = new Dependent();
         dependents.Name = request.Name;
         dependents.DateOfBirth = request.DateOfBirth;
         dependents.UserId = request.UserId;
 
-        await _dependentRepository.Add(dependents);
+        await _dependentRepository.AddAsync(dependents);
         var response = _mapper.Map<DependentResponseDto>(dependents);
         return response;
     }
@@ -34,7 +33,7 @@ public class DependentService : IDependentService
     {
         var dependents = await _dependentRepository.FindBy(x => x.DependentId == id).FirstOrDefaultAsync();
 
-        await _dependentRepository.Delete(dependents);
+        await _dependentRepository.DeleteAsync(dependents);
         var response = _mapper.Map<DependentResponseDto>(dependents);
         return response;
     }
@@ -66,7 +65,7 @@ public class DependentService : IDependentService
         dependents.DateOfBirth = request.DateOfBirth;
         dependents.UserId = request.UserId;
 
-        await _dependentRepository.Update(dependents);
+        await _dependentRepository.UpdateAsync(dependents);
         var response = _mapper.Map<DependentResponseDto>(dependents);
         return response;
     }
